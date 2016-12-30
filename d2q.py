@@ -8,6 +8,8 @@ from pprint import pprint
 
 def detect_missing_args(kwargs):
     # Detect missing input arguments.
+    # {'date': None, 'tz': ['Asia/Hong_Kong']}
+    # {'date': ['2016-12-25'], 'tz': None}
     for key, value in kwargs.iteritems():
         # If either date or tz is not given (aka None), abort the program
         try:
@@ -35,8 +37,8 @@ def d2q(*args):
      {'date': '2011-01-22', 'tz': 'US/Pacific'}]
 
      This function will add a couple more key/value pairs
-     in the date and timezone dictionary;
-     includes the quarter, and the datetime object base on the timezone given
+     in the given date and timezone dictionary; this includes
+     the quarter, and the datetime object base on the timezone given
 
      The format of 'date' is '2016-12-25' (i.e. '%Y-%m-%d').
      The format of 'tz' is base on IANA defintion and is case sensitive.
@@ -75,7 +77,6 @@ def d2q(*args):
         except:     # Catch all exception
             e = sys.exc_info()
             exit(e)
-        pprint(datetime_object)
         # Add quarter to the dictionary
         item['quarter'] = quarter(datetime_object)
         # Add the datetime object to the dictionary
