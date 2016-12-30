@@ -65,11 +65,9 @@ def d2q(*args):
             # Operations abort. Return error
             exit(e)
         # Convert naive datetime object to a timezone aware datetime object
-        datetime_object = datetime_object.replace(tzinfo=pytz.timezone('UTC'))
-        # Replace the tzinfo with the given time zone in the argument
+        # Localize the tzinfo with the given time zone in the argument
         try:
-            datetime_object = datetime_object.\
-                              astimezone(pytz.timezone(item['tz']))
+            datetime_object_new = pytz.timezone(item['tz']).localize(datetime_object)
         except pytz.exceptions.UnknownTimeZoneError as e:
             # Operations abort. Return error
             exit(type(e)("Timezone value - " + e.message +
@@ -77,6 +75,7 @@ def d2q(*args):
         except:     # Catch all exception
             e = sys.exc_info()
             exit(e)
+        pprint(datetime_object)
         # Add quarter to the dictionary
         item['quarter'] = quarter(datetime_object)
         # Add the datetime object to the dictionary
