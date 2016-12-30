@@ -16,7 +16,7 @@ optional arguments:
   --tz TZ [TZ ...]      IANA Date Time String - E.g. Asia/Hong_Kong,
                         US/Pacific
 
-This scripts expect to receive a list of dictionaries such as
+This script expects to receive a list of dictionaries such as
     [{'date': '2016-11-25', 'tz': 'Asia/Hong_Kong'},
      ......,
      {'date': '2011-01-22', 'tz': 'US/Pacific'}]
