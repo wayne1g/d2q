@@ -97,11 +97,11 @@ def quarter(args):
 if __name__ == '__main__':
     # Define arguments required
     p = argparse.ArgumentParser(description='''Generate a dictionary from the
-    given date string and the time zone argument. The dictionary will contain
-    the quarter of the date, and is also a timezone aware datetime object.''')
+    given date string and the time zone. The dictionary will contain the quarter
+     of the date, and is also a timezone aware datetime object.''')
     p.add_argument('--date', nargs='+', help='Date - E.g. 2016-12-25')
     p.add_argument('--tz', nargs='+',
-                   help='IANA Date Time String -
+                   help='IANA Date Time String -\
                    E.g. Asia/Hong_Kong, US/Pacific')
     # Generate a Namespace object from the parser
     args = p.parse_args()
