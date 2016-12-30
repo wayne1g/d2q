@@ -5,6 +5,26 @@ import pytz
 from datetime import datetime
 from pprint import pprint
 
+def detect_missing_args(kwargs):
+    # Detect missing input arguments.
+    for key, value in kwargs.iteritems():
+        try:    # If either date or tz is not given (aka None), abort the program
+            len(value)
+        except TypeError as e:
+            # Operations abort. Return error
+            exit(type(e)("No input is given for " + key + " - " + e.message))
+            # exit(e)
+
+
+def detect_padding_need(kwargs):
+    # Detect if we need to pad time zone
+    # E.g. we have one time zone given for many dates to work with
+    if len(kwargs['date']) > 1 and len(kwargs['tz']) == 1:
+        # Pad tz until it is as long as date input
+        for d in range(1, len(kwargs['date'])):
+            kwargs['tz'].append(kwargs['tz'][0])
+
+
 def d2q(*args):
     '''
     Expect a list of dictionary such as
@@ -58,6 +78,7 @@ def d2q(*args):
         item['quarter'] = quarter(datetime_object)
         # Add the datetime object to the dictionary
         item['dt_obj'] = datetime_object
+    pprint(args)
     return args
 
 
@@ -88,19 +109,11 @@ if __name__ == '__main__':
     kwargs = vars(args)
 
     # Detect missing input arguments.
-    try:    # if either date or tz is not given (aka None), abort the program
-        len(kwargs['tz'])
-        len(kwargs['date'])
-    except TypeError as e:
-        # Operations abort. Return error
-        exit(e)
+    detect_missing_args(kwargs)
 
     # Detect if we need to pad time zone
     # E.g. we have one time zone given for many dates to work with
-    if len(kwargs['date']) > 1 and len(kwargs['tz']) == 1:
-        # Pad tz until it is as long as date input
-        for d in range(1, len(kwargs['date'])):
-            kwargs['tz'].append(kwargs['tz'][0])
+    detect_padding_need(kwargs)
 
     # Make a list of dictionary as the input to the func
     arg_list = [{'date':kwargs['date'][i], 'tz':kwargs['tz'][i]} \
@@ -109,4 +122,6 @@ if __name__ == '__main__':
     # for i in range(len(kwargs['date'])):
     #     arg_list.append({'date':kwargs['date'][i], 'tz':kwargs['tz'][i]})
 
+    # Determine the quarter of the date given and add it with a timezone aware
+    # datetime object for all the given dictionaries in the list
     d2q(*arg_list)
