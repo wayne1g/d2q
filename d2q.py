@@ -68,12 +68,13 @@ def d2q(*args):
         datetime_object = datetime_object.replace(tzinfo=pytz.timezone('UTC'))
         # Replace the tzinfo with the given time zone in the argument
         try:
-            datetime_object = datetime_object.astimezone(pytz.timezone(item['tz']))
+            datetime_object = datetime_object.\
+                              astimezone(pytz.timezone(item['tz']))
         except pytz.exceptions.UnknownTimeZoneError as e:
             # Operations abort. Return error
-            exit(type(e)("Timezone value - " + e.message +\
-                " does not match IANA specifications."))
-        except: # Catch all exception
+            exit(type(e)("Timezone value - " + e.message +
+                         " does not match IANA specifications."))
+        except:     # Catch all exception
             e = sys.exc_info()
             exit(e)
         # Add quarter to the dictionary
@@ -95,13 +96,13 @@ def quarter(args):
 
 if __name__ == '__main__':
     # Define arguments required
-    p = argparse.ArgumentParser(description = '''Generate a dictionary from the
+    p = argparse.ArgumentParser(description='''Generate a dictionary from the
     given date string and the time zone argument. The dictionary will contain
     the quarter of the date, and is also a timezone aware datetime object.''')
-    p.add_argument('--date', nargs='+', \
-        help = 'Date - E.g. 2016-12-25')
-    p.add_argument('--tz', nargs='+', \
-        help = 'IANA Date Time String - E.g. Asia/Hong_Kong, US/Pacific')
+    p.add_argument('--date', nargs='+', help='Date - E.g. 2016-12-25')
+    p.add_argument('--tz', nargs='+',
+                   help='IANA Date Time String -
+                   E.g. Asia/Hong_Kong, US/Pacific')
     # Generate a Namespace object from the parser
     args = p.parse_args()
 
@@ -119,7 +120,7 @@ if __name__ == '__main__':
     detect_padding_need(kwargs)
 
     # Make a list of dictionary as the input to the func
-    arg_list = [{'date':kwargs['date'][i], 'tz':kwargs['tz'][i]} \
+    arg_list = [{'date': kwargs['date'][i], 'tz': kwargs['tz'][i]}
                 for i in range(len(kwargs['date']))]
     # arg_list = []
     # for i in range(len(kwargs['date'])):
