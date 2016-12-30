@@ -67,7 +67,7 @@ def d2q(*args):
         # Convert naive datetime object to a timezone aware datetime object
         # Localize the tzinfo with the given time zone in the argument
         try:
-            datetime_object_new = pytz.timezone(item['tz']).localize(datetime_object)
+            datetime_object = pytz.timezone(item['tz']).localize(datetime_object)
         except pytz.exceptions.UnknownTimeZoneError as e:
             # Operations abort. Return error
             exit(type(e)("Timezone value - " + e.message +
