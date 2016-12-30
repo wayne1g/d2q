@@ -5,10 +5,12 @@ import pytz
 from datetime import datetime
 from pprint import pprint
 
+
 def detect_missing_args(kwargs):
     # Detect missing input arguments.
     for key, value in kwargs.iteritems():
-        try:    # If either date or tz is not given (aka None), abort the program
+        # If either date or tz is not given (aka None), abort the program
+        try:
             len(value)
         except TypeError as e:
             # Operations abort. Return error
@@ -70,15 +72,14 @@ def d2q(*args):
         except pytz.exceptions.UnknownTimeZoneError as e:
             # Operations abort. Return error
             exit(type(e)("Timezone value - " + e.message +\
-                " does not match IANA requirement."))
-        # except: # Catch all exception
-        #     e = sys.exc_info()
-        #     exit(e)
+                " does not match IANA specifications."))
+        except: # Catch all exception
+            e = sys.exc_info()
+            exit(e)
         # Add quarter to the dictionary
         item['quarter'] = quarter(datetime_object)
         # Add the datetime object to the dictionary
         item['dt_obj'] = datetime_object
-    pprint(args)
     return args
 
 
@@ -94,7 +95,9 @@ def quarter(args):
 
 if __name__ == '__main__':
     # Define arguments required
-    p = argparse.ArgumentParser()
+    p = argparse.ArgumentParser(description = '''Generate a dictionary from the
+    given date string and the time zone argument. The dictionary will contain
+    the quarter of the date, and is also a timezone aware datetime object.''')
     p.add_argument('--date', nargs='+', \
         help = 'Date - E.g. 2016-12-25')
     p.add_argument('--tz', nargs='+', \
@@ -124,4 +127,5 @@ if __name__ == '__main__':
 
     # Determine the quarter of the date given and add it with a timezone aware
     # datetime object for all the given dictionaries in the list
-    d2q(*arg_list)
+    result = d2q(*arg_list)
+    pprint(result)
