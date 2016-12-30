@@ -9,8 +9,10 @@ datetime object.
 
 optional arguments:
   -h, --help            show this help message and exit
+  
   --date DATE [DATE ...]
                         Date - E.g. 2016-12-25
+                        
   --tz TZ [TZ ...]      IANA Date Time String - E.g. Asia/Hong_Kong,
                         US/Pacific
 
