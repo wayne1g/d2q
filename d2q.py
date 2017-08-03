@@ -2,7 +2,9 @@
 '''
      This function will add a couple more key/value pairs
      in the given date and timezone dictionary; this includes
-     the quarter, and the datetime object base on the timezone given
+     the quarter, and the datetime object base on the timezone given.
+     This could be useful if you are reading date time as string 
+     from a xls/csv.
 '''
 
 
